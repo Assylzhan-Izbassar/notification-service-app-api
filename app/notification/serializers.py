@@ -27,6 +27,7 @@ class ClientSerializer(serializers.ModelSerializer):
             'time_zone',
         ]
 
+
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message

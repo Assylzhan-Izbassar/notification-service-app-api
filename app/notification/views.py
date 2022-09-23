@@ -4,7 +4,8 @@ Creating views for notification models.
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from .models import Distribution, Client, Message
-from .serializers import DistributionSerializer, ClientSerializer, MessageSerializer
+from .serializers import \
+    DistributionSerializer, ClientSerializer, MessageSerializer
 
 
 class DistributionViewSet(ModelViewSet):
@@ -24,7 +25,10 @@ class ClientViewSet(ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         if Message.objects.filter(client_id=kwargs['pk']).count() > 0:
-            return Response({'error': 'Client cannot be deleted because it has message(s).'})
+            return Response(
+                {'error': 'Client cannot \
+                        be deleted because it has message(s).'}
+            )
         return super().destroy(request, *args, **kwargs)
 
 
