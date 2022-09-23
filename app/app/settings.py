@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'notification',
-    'tags'
+    'notification_custom',
+    'tags',
 ]
 
 MIDDLEWARE = [

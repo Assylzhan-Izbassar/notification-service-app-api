@@ -7,14 +7,26 @@ from django.db import models
 class Distribution(models.Model):
     mailing_launch = models.DateTimeField()
     message = models.TextField()
-    mobile_code = models.CharField(max_length=255)
+    mobile_code = models.CharField(max_length=10)
     mailing_end = models.DateTimeField()
+
+    def __str__(self):
+        return str(self.mailing_launch)
+
+    class Meta:
+        ordering = ['mailing_launch']
 
 
 class Client(models.Model):
     phone_number = models.CharField(max_length=255)
-    mobile_code = models.CharField(max_length=255)
+    mobile_code = models.CharField(max_length=10)
     time_zone = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.phone_number
+
+    class Meta:
+        ordering = ['phone_number']
 
 
 class Message(models.Model):
@@ -43,3 +55,9 @@ class Message(models.Model):
         on_delete=models.PROTECT,
         related_name='clients'
     )
+
+    def __str__(self):
+        return str(self.created_at)
+
+    class Meta:
+        ordering = ['created_at']
