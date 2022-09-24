@@ -1,6 +1,7 @@
 """
 Creating views for notification models.
 """
+from django.db.models import F
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from .models import Distribution, Client, Message
@@ -9,7 +10,7 @@ from .serializers import \
 
 
 class DistributionViewSet(ModelViewSet):
-    queryset = Distribution.objects.all()
+    queryset = Distribution.objects.prefetch_related('message_set').all()
     serializer_class = DistributionSerializer
 
     def get_serializer_context(self):

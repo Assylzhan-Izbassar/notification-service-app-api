@@ -6,7 +6,7 @@ from django.db import models
 
 class Distribution(models.Model):
     mailing_launch = models.DateTimeField()
-    message = models.TextField()
+    description = models.TextField(unique=True)
     mobile_code = models.CharField(max_length=10)
     mailing_end = models.DateTimeField()
 
@@ -48,12 +48,10 @@ class Message(models.Model):
     distribution = models.ForeignKey(
         Distribution,
         on_delete=models.CASCADE,
-        related_name='distributions'
     )
     client = models.ForeignKey(
         Client,
         on_delete=models.PROTECT,
-        related_name='clients'
     )
 
     def __str__(self):

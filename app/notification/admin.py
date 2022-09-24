@@ -8,8 +8,8 @@ from . import models
 
 @admin.register(models.Distribution)
 class DistributionAdmin(admin.ModelAdmin):
-    list_display = ['mailing_launch', 'message', 'mobile_code', 'sent_count']
-    list_editable = ['message']
+    list_display = ['mailing_launch', 'description', 'mobile_code', 'sent_count']
+    list_editable = ['description']
     list_per_page = 10
     list_filter = ['mailing_launch', 'mobile_code']
     ordering = ['mailing_launch', 'mailing_end']
@@ -26,7 +26,7 @@ class DistributionAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(
-            sent_count=Count('distributions')
+            sent_count=Count('message')
         )
 
 
