@@ -1,7 +1,6 @@
 """
 Creating serializers for proper models.
 """
-from django.db.models.aggregates import Count
 from rest_framework import serializers
 from .models import Distribution, Client, Message
 
@@ -19,8 +18,14 @@ class MessageSerializer(serializers.ModelSerializer):
 
 
 class DistributionSerializer(serializers.ModelSerializer):
-    messages = MessageSerializer(many=True, read_only=True, source='message_set')
-    sent_count = serializers.SerializerMethodField('count_sent_messages')
+    messages = MessageSerializer(
+        many=True,
+        read_only=True,
+        source='message_set'
+    )
+    sent_count = serializers \
+        .SerializerMethodField('count_sent_messages')
+
     class Meta:
         model = Distribution
         fields = [

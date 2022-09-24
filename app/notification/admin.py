@@ -8,7 +8,12 @@ from . import models
 
 @admin.register(models.Distribution)
 class DistributionAdmin(admin.ModelAdmin):
-    list_display = ['mailing_launch', 'description', 'mobile_code', 'sent_count']
+    list_display = [
+        'mailing_launch',
+        'description',
+        'mobile_code',
+        'sent_count'
+    ]
     list_editable = ['description']
     list_per_page = 10
     list_filter = ['mailing_launch', 'mobile_code']

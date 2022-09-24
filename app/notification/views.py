@@ -1,7 +1,6 @@
 """
 Creating views for notification models.
 """
-from django.db.models import F
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from .models import Distribution, Client, Message
