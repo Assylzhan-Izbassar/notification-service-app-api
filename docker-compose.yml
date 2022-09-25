@@ -19,6 +19,8 @@ services:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USERNAME}
       - DB_PASS=${DB_PASSWORD}
+      - BASE_URL=${BASE_URL}
+      - TOKEN=${TOKEN}
     depends_on:
       - db
 
@@ -31,5 +33,29 @@ services:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
 
+  redis:
+    image: redis:6.2-alpine
+    ports:
+      - "6379:6379"
+    restart: always
+    volumes:
+      - redisdata:/data
+
+  celery:
+    build: .
+    command: celery -A app worker --loglevel=info
+    environment:
+      - DB_HOST=db
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USERNAME}
+      - DB_PASS=${DB_PASSWORD}
+      - BASE_URL=${BASE_URL}
+      - TOKEN=${TOKEN}
+    depends_on:
+      - redis
+    volumes:
+      - "./app:/app"
+
 volumes:
   dev-db-data:
+  redisdata:

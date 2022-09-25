@@ -1,6 +1,7 @@
 """
 Define all the models that app is needed.
 """
+import pytz
 from django.db import models
 
 
@@ -18,9 +19,16 @@ class Distribution(models.Model):
 
 
 class Client(models.Model):
-    phone_number = models.CharField(max_length=255)
+
+    TIMEZONES_CHOICES = tuple(zip(pytz.all_timezones, pytz.all_timezones))
+
+    phone_number = models.CharField(max_length=255, unique=True)
     mobile_code = models.CharField(max_length=10)
-    time_zone = models.CharField(max_length=255)
+    time_zone = models.CharField(
+        max_length=255,
+        choices=TIMEZONES_CHOICES,
+        default='UTC'
+    )
 
     def __str__(self):
         return self.phone_number
