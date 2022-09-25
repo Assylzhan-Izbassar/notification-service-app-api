@@ -9,7 +9,7 @@ from .tasks import send_distribution
 
 
 @receiver(post_save, sender=Distribution)
-def distribution_post_save(sender, instance, created):
+def distribution_post_save(sender, instance, created, **kwargs):
     if created:
         clients = Client.objects.filter(
             phone_number__istartswith=instance.mobile_code
