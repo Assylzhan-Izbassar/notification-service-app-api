@@ -1,0 +1,28 @@
+{% block subject %} The report for sent messages {% endblock %}
+
+{% block html_body %}
+
+<h1>Report</h1>
+
+<table>
+    <tr>
+        <th>Created</th>
+        <th>Status</th>
+        <th>Distribution</th>
+        <th>Client</th>
+    </tr>
+    {% for message in messages %}
+        <tr>
+            <td>{{message.created_at}}</td>
+            <td>{{message.sent_status}}</td>
+            <td>{{message.distribution}}</td>
+            <td>{{message.client}}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+<br>
+
+<div>Next report will be tomorrow.</div>
+
+{% endblock %}

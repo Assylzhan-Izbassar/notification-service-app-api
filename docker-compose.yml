@@ -41,6 +41,13 @@ services:
     volumes:
       - redisdata:/data
 
+  smtp4dev:
+    image: rnwood/smtp4dev:v3
+    ports:
+      - "3000:80"
+      - "2525:25"
+    restart: always
+
   celery:
     build: .
     command: celery -A app worker --loglevel=info
@@ -53,6 +60,21 @@ services:
       - TOKEN=${TOKEN}
     depends_on:
       - redis
+    volumes:
+      - "./app:/app"
+
+  celery-beat:
+    build: .
+    command: celery -A app beat --loglevel=info
+    depends_on:
+      - redis
+    environment:
+      - DB_HOST=db
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USERNAME}
+      - DB_PASS=${DB_PASSWORD}
+      - BASE_URL=${BASE_URL}
+      - TOKEN=${TOKEN}
     volumes:
       - "./app:/app"
 

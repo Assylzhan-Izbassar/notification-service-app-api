@@ -16,6 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import debug_toolbar
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularSwaggerView,
+)
 
 admin.site.site_header = 'Notification Service Admin'
 admin.site.index_title = 'Admin'
@@ -24,4 +28,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('notification/', include('notification.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
+    path('api/schema/', SpectacularAPIView.as_view(), name='api-schema'),
+    path(
+        'api/docs/',
+        SpectacularSwaggerView.as_view(url_name='api-schema'),
+        name='api-docs',
+    )
 ]

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'notification_custom',
     'tags',
     'debug_toolbar',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -139,11 +141,24 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-def show_toolbar(request):
-    return True
-
 DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': show_toolbar,
+    'SHOW_TOOLBAR_CALLBACK': lambda request: True,
 }
 
 CELERY_BROKER_URL = 'redis://redis:6379/1'
+CELERY_BEAT_SCHEDULE = {
+    'send_report': {
+        'task': 'notification.tasks.send_report',
+        'schedule': crontab(hour=12, minute=0),
+    }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+EMAIL_HOST = 'smtp4dev'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 25
+DEFAULT_FROM_EMAIL = 'test@example.com'

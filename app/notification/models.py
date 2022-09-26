@@ -12,7 +12,7 @@ class Distribution(models.Model):
     mailing_end = models.DateTimeField()
 
     def __str__(self):
-        return str(self.mailing_launch)
+        return str(self.description)
 
     class Meta:
         ordering = ['mailing_launch']
